@@ -7,7 +7,6 @@ import { DataGrid } from '@mui/x-data-grid';
 const Customers = () => {
   const theme = useTheme();
   const { data, isLoading } = useGetCustomersQuery();
-  console.log('data', data);
 
   const columns = [
     {
@@ -84,7 +83,7 @@ const Customers = () => {
         <DataGrid
           loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={data || []}
+          rows={data ?? []}
           columns={columns}
         />
       </Box>

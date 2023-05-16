@@ -9,7 +9,6 @@ import {
   Typography,
   Rating,
   useTheme,
-  useMediaQuery,
   CircularProgress,
   Grid,
 } from '@mui/material';
@@ -58,8 +57,8 @@ const Product = ({ _id, name, description, price, rating, category, supply, stat
         }}
       >
         <CardContent>
-          <Typography>id: {_id}</Typography>
-          <Typography>Supply Left: {supply}</Typography>
+          <Typography>id: {_id ?? 'N/A'}</Typography>
+          <Typography>Supply Left: {supply ?? 'N/A'}</Typography>
           <Typography>Yearly Sales This Year: {stat[0]?.yearlySalesTotal ?? 'N/A'}</Typography>
           <Typography>
             Yearly Units Sold This Year: {stat[0]?.yearlyTotalSoldUnits ?? 'N/A'}
@@ -71,8 +70,10 @@ const Product = ({ _id, name, description, price, rating, category, supply, stat
 };
 
 const Products = () => {
-  const { data, isLoading } = useGetProductsQuery();
-
+  const { data, isLoading, error } = useGetProductsQuery();
+  if (error) {
+    return <Typography variant='h6'>{'Account: ' + error?.data ?? 'N/A'}</Typography>;
+  }
   return (
     <Box m='1.5rem 2.5rem'>
       {/* <Header title="PRODUCTS" subtitle="See your list of products." /> */}

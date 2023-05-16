@@ -1,10 +1,17 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
+const baseQuery = fetchBaseQuery({
+    baseUrl: 'http://localhost:9000',
+    prepareHeaders: (headers) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            headers.set('token', `${token}`);
+        }
+        return headers;
+    },
+});
 
 export const api = createApi({
-    baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:9000',
-    }),
+    baseQuery,
     reducerPath: "adminApi",
     tagTypes: ["User", "Products", "Customers"],
     endpoints: (build) => ({
@@ -22,4 +29,10 @@ export const api = createApi({
         }),
     })
 });
+
+
+
+
+
+
 export const { useGetUserQuery, useGetProductsQuery, useGetCustomersQuery } = api;
